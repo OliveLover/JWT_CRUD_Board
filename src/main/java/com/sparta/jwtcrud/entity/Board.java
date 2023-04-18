@@ -20,15 +20,11 @@ public class Board extends Timestamped {
     private String title;
     @Column(nullable = false)
     private String contents;
-//    @Column(nullable = false)
-//    private String password;
-
 
     public Board(BoardRequestDto requestDto, User user) {
         this.writerName = user.getUserName();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        //this.password = requestDto.getPassword();
     }
 
 

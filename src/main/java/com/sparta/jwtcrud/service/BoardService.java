@@ -27,9 +27,7 @@ public class BoardService {
     @Transactional
     public String saveBoard(BoardRequestDto requestDto, HttpServletRequest httpServletRequest) {
         String token = jwtUtil.resolveToken(httpServletRequest);
-        System.out.println(token);
         Claims claims;
-
 
         // 토큰이 있는 경우에만 수정
         if (token != null) {
@@ -45,23 +43,12 @@ public class BoardService {
             User user = userRepository.findByUserName(claims.getSubject()).orElseThrow(
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
-//            Board board = boardRepository.findById(id).orElseThrow(
-//                    () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-//            );
-//            if (requestDto.getPassword().equals(board.getPassword())) {
-//                boardRepository.save(board);
-//                return board.getContents();
-//            } else {
-//                return "패스워드가 맞지 않습니다.";
-//            }
+
             Board board = new Board(requestDto, user);
-            //System.out.println("password : " + board.getPassword());
-            System.out.println("writerName : " + board.getWriterName());
-            System.out.println("title : " + board.getTitle());
-            System.out.println("contents : " + board.getContents());
+
             boardRepository.save(board);
             return requestDto.getContents();
-        } else return "토큰이 없습니다.";
+        } else return "인증되지 않은 사용자입니다.";
     }
 
     @Transactional
@@ -72,7 +59,6 @@ public class BoardService {
         for (Board boards : board) {
             dtos.add(new BoardResponseDto(boards));
         }
-        System.out.println("getBoard 안의 값 : " +dtos);
         return dtos;
     }
 
@@ -107,15 +93,10 @@ public class BoardService {
             Board board = boardRepository.findById(id).orElseThrow(
                     () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
             );
-//            if (requestDto.getPassword().equals(board.getPassword())) {
-//                board.update(requestDto);
-//                return board.getContents();
-//            } else {
-//                return "패스워드가 맞지 않습니다.";
-//            }
+
             board.update(requestDto);
             return board.getContents();
-        } else return "수정할 수 없습니다.";
+        } else return "인증되지 않은 사용자는 해당 게시글을 수정할 수 없습니다.";
     }
 
     @Transactional
@@ -126,7 +107,7 @@ public class BoardService {
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
 
-        // 토큰이 있는 경우에만 수정
+        // 토큰이 있는 경우에만 삭제
         if (token != null) {
             // Token 검증
             if (jwtUtil.validateToken(token)) {
@@ -141,14 +122,10 @@ public class BoardService {
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
 
-//            Board board = boardRepository.findById(id).orElseThrow(
-//                    () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
-//            );
-
             boardRepository.deleteById(id);
             return "삭제 완료";
         } else {
-            return "패스워드가 맞지 않습니다.";
+            return "인증되지 않은 사용자는 해당 게시글을 삭제할 수 없습니다.";
         }
     }
 

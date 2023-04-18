@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "users")
-//@Table(name = "users")
 @Getter
 @NoArgsConstructor
 public class User {
