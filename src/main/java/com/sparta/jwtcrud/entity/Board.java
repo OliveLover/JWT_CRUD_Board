@@ -14,17 +14,21 @@ public class Board extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    //@JoinColumn
+    @Column(nullable = false)
     private String writerName;
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String contents;
-    private String password;
+//    @Column(nullable = false)
+//    private String password;
 
-    public Board(BoardRequestDto requestDto) {
-        this.writerName = requestDto.getWriterName();
+
+    public Board(BoardRequestDto requestDto, User user) {
+        this.writerName = user.getUserName();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        this.password = requestDto.getPassword();
+        //this.password = requestDto.getPassword();
     }
 
 

@@ -3,6 +3,7 @@ package com.sparta.jwtcrud.controller;
 import com.sparta.jwtcrud.dto.LoginRequestDto;
 import com.sparta.jwtcrud.dto.SignupRequestDto;
 import com.sparta.jwtcrud.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequestDto requestDto) {
-        return userService.login(requestDto);
+    public String login(@RequestBody LoginRequestDto requestDto, HttpServletResponse httpServletResponse) {
+        return userService.login(requestDto, httpServletResponse);
     }
 }
