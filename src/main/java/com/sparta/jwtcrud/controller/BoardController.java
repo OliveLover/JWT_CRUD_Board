@@ -29,14 +29,16 @@ public class BoardController {
         return boardService.selectGetBoard(id);
     }
 
-    @PutMapping("/api/modBoard/{id}/{password}")
-    public String updateBoard(@PathVariable Long id, @PathVariable String password, @RequestBody BoardRequestDto requestDto) {
-        return boardService.update(id, password, requestDto);
+    @PutMapping("/api/modBoard/{id}")
+    public String updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto) {
+        return boardService.update(id, requestDto);
     }
 
-    @DeleteMapping("/api/delBoard/{id}/{password}")
-    public String deleteBoard(@PathVariable Long id, @PathVariable String password) {
-        return boardService.deleteBoard(id, password);
+    @DeleteMapping("/api/delBoard/{id}")
+    public String deleteBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto) {
+        return boardService.deleteBoard(id, requestDto);
     }
 
 }
+
+// Client <-Dto-> Controller <-Dto-> Service <-Dto-> Repository <-Entity-> DB
