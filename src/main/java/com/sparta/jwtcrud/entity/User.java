@@ -1,26 +1,24 @@
 package com.sparta.jwtcrud.entity;
 
+import com.sparta.jwtcrud.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "users")
+//@Table(name = "users")
 @Getter
 @NoArgsConstructor
 public class User {
-   @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
-    @Column(nullable = false)
-    private String userName;
-    @Column(nullable = false)
-    private String password;
-    @Column(nullable = false)
-    private String email;
 
-/*    public User(SignupRequestDto requestDto) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String userName;
+    private String password;
+
+    public User(SignupRequestDto requestDto) {
         this.userName = requestDto.getUserName();
         this.password = requestDto.getPassword();
-        this.email = requestDto.getEmail();
-    }*/
+    }
 }

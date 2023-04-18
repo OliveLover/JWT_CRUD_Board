@@ -6,23 +6,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Entity
-@Table(name = "board")
+@Entity(name = "boards")
+@Table(name = "boards")
 @NoArgsConstructor
 public class Board extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
+    private Long Id;
+
+    //@JoinColumn
     private String writerName;
-
-    @Column(nullable = false)
     private String title;
-
-    @Column(nullable = false)
     private String contents;
-
-    @Column(nullable = false)
     private String password;
 
     public Board(BoardRequestDto requestDto) {
@@ -31,6 +26,7 @@ public class Board extends Timestamped {
         this.contents = requestDto.getContents();
         this.password = requestDto.getPassword();
     }
+
 
     public void update(BoardRequestDto requestDto) {
         this.title = requestDto.getTitle();
