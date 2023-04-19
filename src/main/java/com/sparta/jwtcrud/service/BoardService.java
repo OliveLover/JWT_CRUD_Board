@@ -59,7 +59,7 @@ public class BoardService {
         List<BoardResponseDto> dtos = new ArrayList<>();
 
         for (Board boards : board) {
-            dtos.add(new BoardResponseDto(boards));
+                dtos.add(new BoardResponseDto(boards));
         }
         return dtos;
     }
@@ -99,7 +99,8 @@ public class BoardService {
             String name = (String) claims.getSubject();
             if (name.equals(board.getWriterName())) {
                 board.update(requestDto);
-                return board.getContents();
+                return requestDto.getContents();
+                //return requestDto.getContents();
             } else return "권한이 없습니다.";
 
         } else return "인증되지 않은 사용자는 해당 게시글을 수정할 수 없습니다.";
