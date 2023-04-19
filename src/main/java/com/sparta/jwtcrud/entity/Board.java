@@ -14,6 +14,9 @@ public class Board extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+//    @JoinColumn(name = "userName", nullable = false)
+//    @ManyToOne
+//    private User user;
     @Column(nullable = false)
     private String writerName;
     @Column(nullable = false)
