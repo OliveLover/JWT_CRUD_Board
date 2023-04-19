@@ -35,6 +35,7 @@ public class BoardService {
             if (jwtUtil.validateToken(token)) {
                 // 토큰에서 사용자 정보 가져오기
                 claims = jwtUtil.getUserInfoFromToken(token);
+                System.out.println(claims);
             } else {
                 throw new IllegalArgumentException("Token Error");
             }
@@ -48,6 +49,7 @@ public class BoardService {
 
             boardRepository.save(board);
             return requestDto.getContents();
+
         } else return "인증되지 않은 사용자입니다.";
     }
 
@@ -94,14 +96,19 @@ public class BoardService {
                     () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
             );
 
-            board.update(requestDto);
-            return board.getContents();
+            String name = (String) claims.getSubject();
+            if (name.equals(board.getWriterName())) {
+                board.update(requestDto);
+                return board.getContents();
+            } else return "권한이 없습니다.";
+
         } else return "인증되지 않은 사용자는 해당 게시글을 수정할 수 없습니다.";
     }
 
     @Transactional
     public String deleteBoard(Long id, HttpServletRequest httpServletRequest) {
         String token = jwtUtil.resolveToken(httpServletRequest);
+        System.out.println("token :" + token);
         Claims claims;
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
@@ -122,8 +129,12 @@ public class BoardService {
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
 
-            boardRepository.deleteById(id);
-            return "삭제 완료";
+            String name = (String) claims.getSubject();
+            if (name.equals(board.getWriterName())) {
+                boardRepository.deleteById(id);
+                return "삭제 완료";
+            } else return "권한이 없습니다.";
+
         } else {
             return "인증되지 않은 사용자는 해당 게시글을 삭제할 수 없습니다.";
         }

@@ -58,6 +58,7 @@ public class JwtUtil {
                         .compact();
     }
 
+
     // 토큰 검증
     public boolean validateToken(String token) {
         try {
